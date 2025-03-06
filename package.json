@@ -1,6 +1,6 @@
 {
   "name": "react-native-voice-to-text",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "'react-native-voice-to-text' is a React Native module facilitating real-time conversion of spoken words into text, enabling hands-free interaction in mobile applications for tasks like messaging, note-taking, and search functionalities.",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
