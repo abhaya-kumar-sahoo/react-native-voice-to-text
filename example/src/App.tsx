@@ -1,34 +1,26 @@
-import * as React from 'react';
-
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { startRecognition, stopRecognition } from 'react-native-voice-to-text';
-
-// const SpeechToText = NativeModules.SpeechToText;
+import { useState } from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+import { startSpeechToText } from 'react-native-voice-to-text';
 
 export default function App() {
-  const [language, setLanguage] = React.useState('en-IN');
-
-  async function startSpeechToText() {
-    console.log('start speach recogination');
-    try {
-      const result = await startRecognition(language); // <-- pass language here , in which you want the output.
-      console.log('Speech recognized: ', result);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  function stopSpeechToText() {
-    stopRecognition();
-  }
-
+  const [text, setText] = useState<any>('');
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.box} onPress={startSpeechToText}>
-        <Text style={styles.text}>Start Speech-to-Text</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={stopSpeechToText}>
-        <Text style={styles.text}>STOP Speech-to-Text</Text>
-      </TouchableOpacity>
+      <Text style={{ color: 'white', fontWeight: 'bold' }}>Result: {text}</Text>
+
+      <Button
+        title="Mic check"
+        color={'#ace10d'}
+        onPress={async () => {
+          try {
+            const audioText = await startSpeechToText();
+            console.log('audioText:', { audioText });
+            setText(audioText);
+          } catch (error) {
+            console.log({ error });
+          }
+        }}
+      />
     </View>
   );
 }
@@ -38,12 +30,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'black',
-  },
-  text: {
-    color: 'white',
-  },
-  box: {
-    marginVertical: 20,
+    backgroundColor: '#04ff0028',
   },
 });

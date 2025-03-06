@@ -2,7 +2,6 @@
 
 React Native Voice-to-Text is a module that facilitates the conversion of spoken words into text within your React Native mobile applications. With this module, users can dictate text input, enabling hands-free interaction and enhancing accessibility. Integrate voice recognition and transcription capabilities seamlessly into your app to provide a convenient and intuitive user experience.
 
-
 ## Installation
 
 Install the package via npm:
@@ -15,6 +14,12 @@ Install the package via yarn:
 
 ```bash
 yarn add react-native-voice-to-text
+```
+
+Install the package via bun:
+
+```bash
+bun add react-native-voice-to-text
 ```
 
 ## Android Setup
@@ -32,37 +37,30 @@ This permission allows the app to record audio, which is essential for voice rec
 
 Import the functions provided by the package and use them in your React Native components:
 
-```javascript
-import * as React from 'react';
-
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { startRecognition, stopRecognition } from 'react-native-voice-to-text';
-
+```jsx
+import { useState } from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+import { startSpeechToText } from 'react-native-voice-to-text';
 
 export default function App() {
-  const [language, setLanguage] = React.useState('en-IN');
-
-  async function startSpeechToText() {
-    console.log('start speach recogination');
-    try {
-      const result = await startRecognition(language);
-      console.log('Speech recognized: ', result);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  function stopSpeechToText() {
-    stopRecognition();
-  }
-
+  const [text, setText] = useState<any>('');
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.box} onPress={startSpeechToText}>
-        <Text style={styles.text}>Start Speech-to-Text</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={stopSpeechToText}>
-        <Text style={styles.text}>STOP Speech-to-Text</Text>
-      </TouchableOpacity>
+      <Text style={{ color: 'white', fontWeight: 'bold' }}>Result: {text}</Text>
+
+      <Button
+        title="Mic check"
+        color={'#ace10d'}
+        onPress={async () => {
+          try {
+            const audioText = await startSpeechToText();
+            console.log('audioText:', { audioText });
+            setText(audioText);
+          } catch (error) {
+            console.log({ error });
+          }
+        }}
+      />
     </View>
   );
 }
@@ -72,33 +70,23 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'black',
-  },
-  text: {
-    color: 'white',
-  },
-  box: {
-    marginVertical: 20,
+    backgroundColor: '#04ff0028',
   },
 });
+
 
 ```
 
 ## API
 
-### `startRecognition(language: string): Promise<any>`
+### `startSpeechToText(): Promise<any>`
 
-Starts voice recognition with the specified language.
-
-- `language`: The language code (e.g., "en-US").
-
-### `stopRecognition(): Promise<any>`
-
-Stops the ongoing voice recognition process.
+Starts voice recognition with the English language.
 
 ## Platform Support
 
-- Android: Supported
+- Android: Supported (React Native version above 0.78.0)
+
 - iOS: Not supported
 
 ## License

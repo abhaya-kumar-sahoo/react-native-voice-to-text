@@ -1,12 +1,9 @@
+#ifdef __cplusplus
+#import "react-native-voice-to-text.h"
+#endif
 
-#ifdef RCT_NEW_ARCH_ENABLED
-#import "RNVoiceToTextSpec.h"
+#import "generated/RNVoiceToTextSpec/RNVoiceToTextSpec.h"
 
 @interface VoiceToText : NSObject <NativeVoiceToTextSpec>
-#else
-#import <React/RCTBridgeModule.h>
-
-@interface VoiceToText : NSObject <RCTBridgeModule>
-#endif
 
 @end
